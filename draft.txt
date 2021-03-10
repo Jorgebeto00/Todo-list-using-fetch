@@ -1,0 +1,23 @@
+<div className="input-group mb-3">
+				<input
+					type="text"
+					className="form-control"
+					placeholder="Add todo"
+					aria-label="Add todo"
+					aria-describedby="button-addon2"
+					onKeyUp={e =>
+						//listen to the key up and wait for the return key to be pressed (KeyCode === 13)
+						e.keyCode === 13 &&
+						setInputValue(
+							inputValue.concat({
+								label: e.target.value,
+								done: false
+							})
+						)
+					}
+					// onChange={e => setInputValue(e.target.value)}
+					// value={inputValue}
+				/>
+				<br />
+				<ul>{<li>x</li>}</ul>
+			</div>
