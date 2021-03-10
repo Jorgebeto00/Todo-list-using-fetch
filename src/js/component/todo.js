@@ -2,7 +2,9 @@ import React, { useState } from "react";
 
 //create your first component
 export function Todo() {
-	const [inputValue, setInputValue] = useState([]);
+    const [inputValue, setInputValue] = useState([]);
+    
+    let newList = inputValue.map()
 
 	return (
 		<div className="container">
