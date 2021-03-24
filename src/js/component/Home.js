@@ -36,12 +36,9 @@ export function Home() {
                 // Handle the error
                 console.log(error);
             });
-
-
-
-
-
-        return (
+        
+    })
+    return (
             <div className="container">
                 <div className="box">
                     <h1>Todo</h1>
@@ -69,4 +66,5 @@ export function Home() {
                 </div>
             </div>
         );
-    }
+    
+}
