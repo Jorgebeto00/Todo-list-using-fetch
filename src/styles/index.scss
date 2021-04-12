@@ -1,9 +1,64 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
+// .container{
+//     background-color: red;
+// }
+input{
+    border-radius: 25px;
+}
 .box{
     margin: auto;
-    
-    width: 500px;
+    background-color: wheat;
+    border-radius: 15px;
+    width: 400px;
+    min-height: 500px;
     text-align: center;
+    
+}
+
+.list-container{
+    display: inline-flexbox;
+    flex-direction: row;
+    margin: auto;
+    width: 390px;
+    
+}
+
+.list-box{
+   
+    margin: 1px;
+    padding: 1px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    
+    
+}
+ul{
+    
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-flow: column;
+}
+li{
+    width: 350px;
+    margin: 2px;
+    padding: 5px;
+   background-color: white;
+    border-radius: 25px;
+    // display: flex;
+    // flex-direction: row;
+    
+}
+.button1{
+    background-color: white;
+    border-radius: 50px;
+   
+    
+}
+.button2{
+    border-radius: 25px;
 }
 

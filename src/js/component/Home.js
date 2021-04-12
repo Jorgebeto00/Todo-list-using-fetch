@@ -5,7 +5,7 @@ export function Home() {
 
 	function handleEvent(e) {
 		if (e.key === "Enter") {
-			setlist([...list, e.target.value]);
+			setlist([...list, { label: e.target.value, done: false }]);
 		}
 	}
 
@@ -15,98 +15,106 @@ export function Home() {
 		);
 	};
 
-	// let url = "https://assets.breatheco.de/apis/fake/todos/user/jorgebeto";
+	const updateList = theList => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/jorgebeto", {
+			headers: { "Content-Type": "application/json" },
+			method: "PUT",
+			body: JSON.stringify(theList)
+		})
+			.then(response => response.json())
+			.then(result => console.log(result))
+			.catch(error => console.log("error", error));
+	};
 
-	// const newTodoList = () => {
-	// 	var myHeaders = new Headers();
-	// 	myHeaders.append("Content-Type", "application/json");
+	async function deleteALL() {
+		//delete
+		await fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/jorgebeto",
+			{
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}
+		)
+			.then(response => response.json())
+			.then(result => console.log(result))
+			.catch(error => console.log("error", error));
 
-	// 	var raw = JSON.stringify(list);
+		//POST
 
-	// 	var requestOptions = {
-	// 		method: "POST",
-	// 		headers: myHeaders,
-	// 		body: raw,
-	// 		redirect: "follow"
-	// 	};
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
 
-	// 	fetch(
-	// 		"https://assets.breatheco.de/apis/fake/todos/user/jorgebeto",
-	// 		requestOptions
-	// 	)
-	// 		.then(response => response.text())
-	// 		.then(result => console.log(result))
-	// 		.catch(error => console.log("error", error));
-	// };
+		var raw = JSON.stringify([]);
 
-	// const updateTodoList = () => {
-	// 	var myHeaders = new Headers();
-	// 	myHeaders.append("Content-Type", "application/json");
+		var requestOptions = {
+			method: "POST",
+			headers: myHeaders,
+			body: raw
+		};
 
-	// 	var raw = JSON.stringify(list);
+		await fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/jorgebeto",
+			requestOptions
+		)
+			.then(response => response.text())
+			.then(result => console.log(result))
+			.catch(error => console.log("error", error));
 
-	// 	var requestOptions = {
-	// 		method: "PUT",
-	// 		headers: myHeaders,
-	// 		body: raw,
-	// 		redirect: "follow"
-	// 	};
+		//GET
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/jorgebeto")
+			.then(response => response.json())
+			.then(result => setlist(result))
+			.catch(error => console.log("error", error));
+	}
 
-	// 	fetch(
-	// 		"https://assets.breatheco.de/apis/fake/todos/user/jorgebeto",
-	// 		requestOptions
-	// 	)
-	// 		.then(response => response.text())
-	// 		.then(result => console.log(result))
-	// 		.catch(error => console.log("error", error));
-	// };
+	useEffect(() => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/jorgebeto")
+			.then(response => response.json())
+			.then(result => setlist(result))
+			.catch(error => console.log("error", error));
+	}, []);
 
-	// useEffect(async () => {
-	// 	await fetch(url)
-	// 		.then(response => {
-	// 			if (response.status == 404) {
-	// 				newTodoList();
-	// 			} else {
-	// 				return response.json();
-	// 			}
-	// 		})
-	// 		.then(response => {
-	// 			updateTodoList();
-	// 			console.log(response);
-	// 		})
-	// 		.catch(error => {
-	// 			// Handle the error
-	// 			console.log(error);
-	// 		});
-	// }, [list]);
-
-	//useEffect(updateTodoList(), []);
+	useEffect(() => {
+		updateList(list);
+	}, [list]);
 
 	return (
 		<div className="container">
 			<div className="box">
 				<h1>Todo</h1>
+
 				<input
 					type="text"
 					placeholder="What needs to be done?"
 					onKeyDown={event => handleEvent(event)}
+					className="m-2"
 				/>
-				<ul className="list-group list-group-flus">
-					{list.map((item, index) => {
-						return (
-							<li className="list-group-item " key={index}>
-								{item}{" "}
-								<button
-									className="btn btn-danger"
-									onClick={() => removeItem(index)}>
-									X
-								</button>
-							</li>
-						);
-					})}
-
-					<p>{list.length + "   item left"}</p>
-				</ul>
+				<button
+					className="button2 btn btn-danger m-3"
+					onClick={() => deleteALL()}>
+					Delete List
+				</button>
+				<div className="list-container">
+					<ul>
+						{list.map((item, index) => {
+							return (
+								<div className="list-box" key={index}>
+									<li>{item.label}</li>
+									<button
+										className="button1 btn"
+										onClick={() => removeItem(index)}>
+										X
+									</button>
+								</div>
+							);
+						})}
+						<div id="espacio"></div>
+						<p>{list.length + "   item added"}</p>
+						<div id="espacio"></div>
+					</ul>
+				</div>
 			</div>
 		</div>
 	);
